@@ -3,11 +3,11 @@ services:
 
   proxy:
     build:
-      context: ./envoy
+      context:  ./envoy
       dockerfile: Dockerfile.proxy
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy.yaml
-      - ./target/wasm32-unknown-unknown/release/envoy_wasm.wasm:/etc/myenvoyfilter.wasm
+      - ./envoy/envoy_wasm.wasm:/etc/envoy_wasm.wasm
       # Uncomment this line if you want to use your own Envoy with WASM enabled.
   #    - ./envoy/istio/envoy:/usr/local/bin/envoy
     networks:
@@ -22,7 +22,7 @@ services:
   web_service:
     image: hashicorp/http-echo
     command:
-      - '-text="Welcome to WASM land"'
+      - '-text="You just ran wasm module within Istio/Envoy"'
     networks:
       envoymesh:
         aliases:
